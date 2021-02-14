@@ -21,7 +21,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isPhotoViewerOpen, setIsPhotoViewer] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [selectedCard, setSelectedCard] = useState({
     link: "#",
     name: "",
@@ -122,26 +122,16 @@ function App() {
               onClickCard={handleCardPhotoClick}
             />
             <Route path ="/signin">
-              <Login />
+              <Login name='login' title='Вход' buttonText='Войти' />
             </Route>
             <Route path ="/signup">
-              <Register />
+              <Register name='registr' title='Регистрация' buttonText='Зарегистрироваться'/>
             </Route>
             <Route>
               <NotFound />
             </Route>
           </Switch>
-          
-          {/* <Main
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onClickCard={handleCardPhotoClick}
-            /> */}
-          <Footer />
+          { loggedIn && <Footer />}
         </main>
 
         <EditProfilePopup

@@ -69,3 +69,10 @@
 @import url("./blocks/form/__close-button/_type/form__close-button_type_foto-viewer-close-button.css");
 @import url("./blocks/form/__close-button/_type/form__close-button_type_delete.css");
 @import url("./blocks/form/__close-button/_type/form__close-button_type_change-avatar.css");
+@import url('./blocks/form/_type/form_type_signin.css');
+@import url('./blocks/form/__container/_type/form__container_type_signin.css');
+@import url('./blocks/form/__textinput/_type/form__textinput_type_signin.css');
+@import url('./blocks/form/__title/_type/form__title_type_signin.css');
+@import url('./blocks/form/__submit-button/_type/form__submit-button_type_signin.css');
+@import url('./blocks/form/__text-block/form__text-block.css');
+@import url('./blocks/form/__link/form__link.css');
