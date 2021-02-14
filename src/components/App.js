@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import ImagePopup from "./ImagePopup/ImagePopup";
@@ -107,10 +107,11 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <main className="page">
-          <Header />
+          <Header currentUser={currentUser} />
           <Switch>
             <ProtectedRoute
-              path exact ="/"
+              path
+              exact="/"
               loggedIn={loggedIn}
               component={Main}
               cards={cards}
@@ -121,17 +122,29 @@ function App() {
               onEditAvatar={handleEditAvatarClick}
               onClickCard={handleCardPhotoClick}
             />
-            <Route path ="/signin">
-              <Login name='login' title='Вход' buttonText='Войти' />
-            </Route>
-            <Route path ="/signup">
-              <Register name='registr' title='Регистрация' buttonText='Зарегистрироваться'/>
-            </Route>
+            {!loggedIn ? (
+              <Route path="/signin">
+                <Login name="login" title="Вход" buttonText="Войти" />
+              </Route>
+            ) : (
+              <Redirect to="/" />
+            )}
+            {!loggedIn ? (
+              <Route path="/signup">
+                <Register
+                  name="register"
+                  title="Регистрация"
+                  buttonText="Зарегистрироваться"
+                />
+              </Route>
+            ) : (
+              <Redirect to="/" />
+            )}
             <Route>
               <NotFound />
             </Route>
           </Switch>
-          { loggedIn && <Footer />}
+          {loggedIn && <Footer />}
         </main>
 
         <EditProfilePopup
