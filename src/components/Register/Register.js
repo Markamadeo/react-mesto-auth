@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-function Registr(props) {
+function Register(props) {
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -9,14 +9,20 @@ function Registr(props) {
 
   const handleChange = (event) => {
     setUser({
+      ...user,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleRegisterSubmit = (event) => {
+    event.preventDefault();
+    props.onRegister(user);
   };
 
   return (
     <section className={`form form_type_signin form_status_active`}>
       <form
-        onSubmit={props.onSubmit}
+        onSubmit={handleRegisterSubmit}
         className="form__container form__container_type_signin"
         name={`${props.name}Form`}
       >
@@ -67,4 +73,4 @@ function Registr(props) {
   );
 }
 
-export default Registr;
+export default Register;

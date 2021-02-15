@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import ImagePopup from "./ImagePopup/ImagePopup";
 import Main from "./Main/Main";
 import api from "../utils/api";
+import authApi from "../utils/authApi";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "../components/EditProfilePopup/EditProfilePopup";
 import EditAvatarPopup from "../components/EditAvatarPopup/EditAvatarPopup";
@@ -16,13 +17,13 @@ import Register from "./Register/Register";
 import InfoTooltip from "./InfoTooltip/InfoTooltip";
 
 function App() {
+  const history = useHistory();
   const [cards, setCards] = useState([]);
-
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isPhotoViewerOpen, setIsPhotoViewer] = useState(false);
-  const [isInfoTooltipOpen, setIsInfoTooltip] = useState(true);
+  const [isInfoTooltipOpen, setIsInfoTooltip] = useState(false);
   const [isSuccessfully, setSuccessfully] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedCard, setSelectedCard] = useState({
@@ -45,6 +46,21 @@ function App() {
       setCurrentUser(data);
     });
   }, []);
+
+  function onRegister(userInfo) {
+    authApi
+      .authenticationUser(userInfo)
+      .then((data) => {
+        setSuccessfully(true);
+        setIsInfoTooltip(true);
+        history.push("/signin");
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccessfully(false);
+        setIsInfoTooltip(true);
+      });
+  }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -139,6 +155,7 @@ function App() {
                   name="register"
                   title="Регистрация"
                   buttonText="Зарегистрироваться"
+                  onRegister={onRegister}
                 />
               </Route>
             ) : (
@@ -178,7 +195,7 @@ function App() {
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
-          successfully = {isSuccessfully}
+          successfully={isSuccessfully}
         />
       </div>
     </CurrentUserContext.Provider>
