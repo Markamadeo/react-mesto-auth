@@ -23,7 +23,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isPhotoViewerOpen, setIsPhotoViewer] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltip] = useState(true);
-  const [isSuccessfully, setSuccessfully] = useState(true);
+  const [isSuccessfully, setSuccessfully] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedCard, setSelectedCard] = useState({
     link: "#",

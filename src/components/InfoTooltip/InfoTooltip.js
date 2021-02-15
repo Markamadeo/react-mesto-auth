@@ -12,7 +12,7 @@ function InfoTooltip(props) {
         <button
           type="button"
           onClick={props.onClose}
-          className="form__close-button form__close-button_type_foto-viewer-close-button"
+          className="form__close-button form__close-button_type_info-tooltip-close-button"
         ></button>
         {props.successfully ? (
           <img
