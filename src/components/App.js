@@ -25,7 +25,9 @@ function App() {
   const [isPhotoViewerOpen, setIsPhotoViewer] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltip] = useState(false);
   const [isSuccessfully, setSuccessfully] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState({
+    status: false,
+  });
   const [selectedCard, setSelectedCard] = useState({
     link: "#",
     name: "",
@@ -46,6 +48,23 @@ function App() {
       setCurrentUser(data);
     });
   }, []);
+
+  function onLogin(userInfo) {
+    authApi
+      .authorizationUser(userInfo)
+      .then((data) => {
+        localStorage.setItem("jwt", data.token);
+        setLoggedIn({
+          status: true,
+        });
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccessfully(false);
+        setIsInfoTooltip(true);
+      });
+  }
 
   function onRegister(userInfo) {
     authApi
@@ -132,7 +151,7 @@ function App() {
             <ProtectedRoute
               path
               exact="/"
-              loggedIn={loggedIn}
+              loggedIn={loggedIn.status}
               component={Main}
               cards={cards}
               onCardLike={handleCardLike}
@@ -142,14 +161,19 @@ function App() {
               onEditAvatar={handleEditAvatarClick}
               onClickCard={handleCardPhotoClick}
             />
-            {!loggedIn ? (
+            {!loggedIn.status ? (
               <Route path="/signin">
-                <Login name="login" title="Вход" buttonText="Войти" />
+                <Login
+                  name="login"
+                  title="Вход"
+                  buttonText="Войти"
+                  onLogin={onLogin}
+                />
               </Route>
             ) : (
               <Redirect to="/" />
             )}
-            {!loggedIn ? (
+            {!loggedIn.status ? (
               <Route path="/signup">
                 <Register
                   name="register"
@@ -165,7 +189,7 @@ function App() {
               <NotFound />
             </Route>
           </Switch>
-          {loggedIn && <Footer />}
+          {loggedIn.status && <Footer />}
         </main>
 
         <EditProfilePopup
