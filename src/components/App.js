@@ -13,6 +13,7 @@ import Login from "./Login/Login";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import NotFound from "./NotFound/NotFound";
 import Register from "./Register/Register";
+import InfoTooltip from "./InfoTooltip/InfoTooltip";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -21,6 +22,8 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isPhotoViewerOpen, setIsPhotoViewer] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltip] = useState(true);
+  const [isSuccessfully, setSuccessfully] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedCard, setSelectedCard] = useState({
     link: "#",
@@ -98,6 +101,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsPhotoViewer(false);
+    setIsInfoTooltip(false);
     setSelectedCard({
       link: "#",
       name: "",
@@ -170,6 +174,12 @@ function App() {
           onClose={closeAllPopups}
           card={selectedCard}
         ></ImagePopup>
+
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          onClose={closeAllPopups}
+          successfully = {isSuccessfully}
+        />
       </div>
     </CurrentUserContext.Provider>
   );
