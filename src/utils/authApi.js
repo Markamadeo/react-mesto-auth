@@ -33,6 +33,18 @@ class Auth {
       );
     });
   }
+
+  validateToken(token) {
+    return fetch(this.baseUrl + "/users/me", {
+      method: "GET",
+      headers: { ...this.headers, Authorization: `Bearer ${token}` },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("JWT не прошел проверку валидации на сервере");
+    });
+  }
 }
 
 const authApi = new Auth({

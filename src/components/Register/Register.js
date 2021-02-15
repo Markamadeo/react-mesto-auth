@@ -43,6 +43,7 @@ function Register(props) {
         </div>
         <div className="form__input-container">
           <input
+            autoComplete="on"
             value={user.password}
             onChange={handleChange}
             name="password"

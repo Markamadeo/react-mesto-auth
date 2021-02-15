@@ -49,6 +49,21 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+
+    if (jwt) {
+      authApi.validateToken(jwt).then((data) => {
+        const userData = data;
+        setLoggedIn({
+          status: true,
+          ...userData.data,
+        });
+        history.push("/");
+      });
+    }
+  }, [history]);
+
   function onLogin(userInfo) {
     authApi
       .authorizationUser(userInfo)
