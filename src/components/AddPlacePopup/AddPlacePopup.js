@@ -1,15 +1,28 @@
-import { useRef } from "react";
+import { useState } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const placeName = useRef();
-  const placeLink = useRef();
+  const [place, setPlace] = useState({
+    name: "",
+    link: "",
+  });
+
+  function handleChange(event) {
+    setPlace({
+      ...place,
+      [event.target.name]: event.target.value,
+    });
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace({
-      name: placeName.current.value,
-      link: placeLink.current.value,
+      name: place.name,
+      link: place.link,
+    });
+    setPlace({
+      name: "",
+      link: "",
     });
     onClose();
   }
@@ -25,7 +38,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     >
       <div className="form__input-container">
         <input
-          ref={placeName}
+          value={place.name}
+          onChange={handleChange}
           name="name"
           type="text"
           className="form__textinput form__textinput_type_adding-name"
@@ -38,8 +52,9 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       </div>
       <div className="form__input-container">
         <input
-          ref={placeLink}
-          name="link-address"
+          value={place.link}
+          onChange={handleChange}
+          name="link"
           type="url"
           className="form__textinput form__textinput_type_adding-link-address"
           placeholder="Ссылка на картинку"
