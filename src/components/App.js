@@ -71,6 +71,7 @@ function App() {
         localStorage.setItem("jwt", data.token);
         setLoggedIn({
           status: true,
+          email: userInfo.email,
         });
         history.push("/");
       })
@@ -94,6 +95,14 @@ function App() {
         setSuccessfully(false);
         setIsInfoTooltip(true);
       });
+  }
+
+  function onSignOut() {
+    localStorage.removeItem("jwt");
+    setLoggedIn({
+      status: false,
+    });
+    history.push("/signin");
   }
 
   function handleCardLike(card) {
@@ -161,7 +170,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <main className="page">
-          <Header currentUser={currentUser} />
+          <Header loggedIn={loggedIn} onSignOut={onSignOut} />
           <Switch>
             <ProtectedRoute
               path
